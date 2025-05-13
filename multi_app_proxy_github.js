@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 // Config
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const GITHUB_PAT = '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';
+const GITHUB_PAT = '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';
 const GITHUB_REPO = 'acmeproducts/oauth-proxy';
 const GITHUB_FILE = 'tokens.json';
 
