@@ -1,4 +1,3 @@
-
 const express = require('express');
 const axios = require('axios');
 const app = express();
@@ -67,8 +66,13 @@ app.get('/google/callback', async (req, res) => {
         console.log(`Stored refresh token for app: ${appId} in GitHub`);
         res.redirect(redirect);
     } catch (err) {
-        console.error(err.response?.data || err);
-        res.status(500).send('Error obtaining tokens');
+        if (err.response) {
+            console.error('Google error data:', JSON.stringify(err.response.data, null, 2));
+            res.status(500).send(`Error obtaining tokens: ${JSON.stringify(err.response.data)}`);
+        } else {
+            console.error('Unknown error:', err);
+            res.status(500).send('Unknown error');
+        }
     }
 });
 
