@@ -6,16 +6,17 @@ const PORT = process.env.PORT || 3000;
 // In-memory token store (replace with persistent store if needed)
 const tokenStore = {};
 
-// Config (same for all apps, or extend later per app if needed)
+// Config
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const PROXY_BASE_URL = 'https://oauth-proxy-3idr.onrender.com'; // Your actual Render URL
 
 // Dynamic Google Auth flow with app and redirect
 app.get('/auth', (req, res) => {
     const { app: appId, redirect } = req.query;
     if (!appId || !redirect) return res.status(400).send('Missing app or redirect');
     const state = encodeURIComponent(`${appId}|${redirect}`);
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=https://oauth-proxy-3idr.onrender.com/callback&response_type=code&scope=https://www.googleapis.com/auth/drive&access_type=offline&prompt=consent&state=${state}`;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${PROXY_BASE_URL}/callback&response_type=code&scope=https://www.googleapis.com/auth/drive&access_type=offline&prompt=consent&state=${state}`;
     res.redirect(url);
 });
 
@@ -30,7 +31,7 @@ app.get('/callback', async (req, res) => {
                 code,
                 client_id: GOOGLE_CLIENT_ID,
                 client_secret: GOOGLE_CLIENT_SECRET,
-                redirect_uri: `https://oauth-proxy-3idr.onrender.com/callback`,
+                redirect_uri: `${PROXY_BASE_URL}/callback`,
                 grant_type: 'authorization_code'
             }
         });
