@@ -15,7 +15,7 @@ app.get('/auth', (req, res) => {
     const { app: appId, redirect } = req.query;
     if (!appId || !redirect) return res.status(400).send('Missing app or redirect');
     const state = encodeURIComponent(`${appId}|${redirect}`);
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=https://YOUR_RENDER_URL/callback&response_type=code&scope=https://www.googleapis.com/auth/drive&access_type=offline&prompt=consent&state=${state}`;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=https://oauth-proxy-3idr.onrender.com/callback&response_type=code&scope=https://www.googleapis.com/auth/drive&access_type=offline&prompt=consent&state=${state}`;
     res.redirect(url);
 });
 
